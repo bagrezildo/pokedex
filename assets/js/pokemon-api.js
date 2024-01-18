@@ -3,6 +3,7 @@ const pokeApi = {}
 
 function convertPokeApiDetailToPokemon(pokeDetail) {
     const pokemon = new Pokemon()
+    console.log(pokeDetail);
     pokemon.number = pokeDetail.id
     pokemon.name = pokeDetail.name
 
@@ -14,10 +15,20 @@ function convertPokeApiDetailToPokemon(pokeDetail) {
 
     pokemon.sprite = pokeDetail.sprites.other.dream_world.front_default
 
+    const abilities = pokeDetail.abilities.map((abilitySlot) => abilitySlot.ability.name)
+    const [ability] = abilities
+
+    pokemon.abilities = abilities
+    pokemon.ability = ability
+
+    pokemon.weight = pokeDetail.weight
+    pokemon.height = pokeDetail.height
+
     return pokemon
 }
 
 pokeApi.getPokemonDetail = (pokemon) => {
+    console.log(pokemon);
     return fetch(pokemon.url)
         .then((response) => response.json())
         .then(convertPokeApiDetailToPokemon)
